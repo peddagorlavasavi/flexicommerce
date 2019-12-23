@@ -1,5 +1,8 @@
 package com.scrotify.flexicommerce.service;
 
-public interface UserOrderService {
+import com.scrotify.flexicommerce.dto.UserOrderRequestDto;
+import com.scrotify.flexicommerce.dto.UserOrderResponseDto;
 
+public interface UserOrderService {
+	public UserOrderResponseDto buyProduct(Integer userId, Integer productId, UserOrderRequestDto userOrderRequestDto);
 }

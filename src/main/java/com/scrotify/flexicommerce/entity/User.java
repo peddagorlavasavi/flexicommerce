@@ -1,4 +1,4 @@
-package com.scrotify.flexicommerce.controller;
+package com.scrotify.flexicommerce.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +18,6 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId;
 	private String password;
-	private String usernName;
+	private String userName;
 
 }

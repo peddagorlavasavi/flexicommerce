@@ -7,5 +7,5 @@ import com.scrotify.flexicommerce.entity.UserOrder;
 
 @Repository
 public interface UserOrderRepository extends JpaRepository<UserOrder, Integer> {
-
+	public UserOrder findByUserAndProduct(Integer userId, Integer productId);
 }
