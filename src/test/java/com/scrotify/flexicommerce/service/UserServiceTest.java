@@ -1,6 +1,5 @@
-package com.scrotify.flexicommerce.controller;
+package com.scrotify.flexicommerce.service;
 
-import static org.mockito.Mockito.when;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -11,36 +10,29 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.scrotify.flexicommerce.dto.UserRequestDto;
-import com.scrotify.flexicommerce.dto.UserResponseDto;
-import com.scrotify.flexicommerce.exception.UserNotFoundException;
-import com.scrotify.flexicommerce.service.UserServiceImpl;
-import com.scrotify.flexicommerce.utils.ApiConstant;
-
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.ResponseEntity;
 
 import com.scrotify.flexicommerce.dto.MyOrderResponseDto;
 import com.scrotify.flexicommerce.entity.Product;
 import com.scrotify.flexicommerce.entity.User;
 import com.scrotify.flexicommerce.entity.UserOrder;
 import com.scrotify.flexicommerce.exception.CommonException;
-import com.scrotify.flexicommerce.service.UserService;
+import com.scrotify.flexicommerce.repository.UserOrderRepository;
+import com.scrotify.flexicommerce.repository.UserRepository;
+import com.scrotify.flexicommerce.utils.ApiConstant;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class UserControllerTest {
+public class UserServiceTest {
 
 	@InjectMocks
-	UserController userController;
+	UserServiceImpl UserServiceImpl;
 
 	@Mock
-	UserService userService;
+	UserRepository userRepository;
+
+	@Mock
+	UserOrderRepository userOrderRepository;
 
 	@Mock
 	List<MyOrderResponseDto> orders;
@@ -60,9 +52,7 @@ public class UserControllerTest {
 	@Mock
 	User user;
 
-	int statusCode = 200;
-
-	int statusCodes = 404;
+	int one = 1;
 
 	@Before
 	public void setUp() {
@@ -88,16 +78,16 @@ public class UserControllerTest {
 
 	@Test
 	public void testMyOrdersPositive() throws CommonException {
-		Mockito.when(userService.getOrders(1)).thenReturn(orders);
-		ResponseEntity<List<MyOrderResponseDto>> response = userController.searchProducts(1);
-		assertEquals(response.getStatusCodeValue(), statusCode);
+		Mockito.when(userOrderRepository.findByUserUserId(1)).thenReturn(userOrderList);
+		List<MyOrderResponseDto> response = UserServiceImpl.getOrders(1);
+		assertEquals(response.size(), one);
 	}
 
-	@Test
+	@Test(expected = CommonException.class)
 	public void testMyOrdersNegative() throws CommonException {
-		Mockito.when(userService.getOrders(1)).thenReturn(orders);
-		ResponseEntity<List<MyOrderResponseDto>> response = userController.searchProducts(2);
-		assertEquals(response.getStatusCodeValue(), statusCodes);
+		Mockito.when(userOrderRepository.findByUserUserId(1)).thenReturn(userOrderList);
+		List<MyOrderResponseDto> response = UserServiceImpl.getOrders(2);
+		assertEquals(ApiConstant.USERID_NOT_FOUND_MESSAGE, response);
 	}
 
 }

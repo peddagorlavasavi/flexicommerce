@@ -6,7 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +14,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Product {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer productId;

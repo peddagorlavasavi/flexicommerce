@@ -13,23 +13,78 @@ import com.scrotify.flexicommerce.entity.User;
 import com.scrotify.flexicommerce.exception.UserNotFoundException;
 import com.scrotify.flexicommerce.repository.UserRepository;
 import com.scrotify.flexicommerce.utils.StringConstant;
+import java.util.ArrayList;
+import java.util.List;
+import com.scrotify.flexicommerce.dto.MyOrderResponseDto;
+import com.scrotify.flexicommerce.entity.UserOrder;
+import com.scrotify.flexicommerce.exception.CommonException;
+import com.scrotify.flexicommerce.repository.UserOrderRepository;
+import com.scrotify.flexicommerce.utils.ApiConstant;
 
 /**
+ * @author Anisha R
  * @author Vasavi
- * @since 2019-12-23 This class is used for logging in to the application.
+ * @since 2019-12-23 
+ * This class is used for logging in to the application and getting the orders by userId.
  *
  */
 @Service
 public class UserServiceImpl implements UserService {
-	/**
+
+  
+    /**
 	 * The Constant log.
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+
 	/**
+	 * This will inject all the implementations of the userOrderRepository.
+	 */
+	
+	@Autowired
+	UserOrderRepository userOrderRepository;
+  
+  	/**
 	 * The userRepository
 	 */
 	@Autowired
 	UserRepository userRepository;
+
+	/**
+	 * This API is used to search the products in productList
+	 * 
+	 * @param userId
+	 *
+	 * @return List<MyOrderResponseDto>
+	 * 
+	 *         This returns the list of orders of by giving the userId
+	 * 
+	 * @author Anisha R
+	 * @throws CommonException
+	 * 
+	 */
+
+	@Override
+	public List<MyOrderResponseDto> getOrders(Integer userId) throws CommonException {
+		List<UserOrder> orderList = userOrderRepository.findByUserUserId(userId);
+		if (orderList.isEmpty()) {
+			throw new CommonException(ApiConstant.USERID_NOT_FOUND_MESSAGE);
+		} else {
+			List<MyOrderResponseDto> orders = new ArrayList<>();
+			orderList.stream().forEach(userOrder -> {
+				MyOrderResponseDto myOrderResponseDto = new MyOrderResponseDto();
+				myOrderResponseDto.setAmount(userOrder.getAmount());
+				myOrderResponseDto.setOrderedDate(userOrder.getOrderedDate());
+				myOrderResponseDto.setOrderId(userOrder.getOrderId());
+				myOrderResponseDto.setProductId(userOrder.getProduct().getProductId());
+				myOrderResponseDto.setQuantity(userOrder.getQuantity());
+				myOrderResponseDto.setUserId(userOrder.getUser().getUserId());
+				orders.add(myOrderResponseDto);
+			});
+			return orders;
+		}	
+		}
 
 	/**
 	 * This method is used for logging into the application.
@@ -54,5 +109,6 @@ public class UserServiceImpl implements UserService {
 		userResponseDto.setMessage(StringConstant.SUCCESS);
 		userResponseDto.setStatusCode(StringConstant.SUCCESS_STATUS_CODE);
 		return userResponseDto;
+
 	}
 }

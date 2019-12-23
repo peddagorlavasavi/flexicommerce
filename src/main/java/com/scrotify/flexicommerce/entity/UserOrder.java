@@ -18,13 +18,14 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UserOrder {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer orderId;
 	private Integer quantity;
 	private Double amount;
 	private LocalDate orderedDate;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
