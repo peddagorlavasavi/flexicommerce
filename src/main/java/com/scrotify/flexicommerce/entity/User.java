@@ -10,17 +10,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "product")
+@Table(name = "user")
 @Setter
 @Getter
-public class Product {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer productId;
-	private String productName;
-	private Double unitPrice;
-	private String description;
-	private String imageUrl;
+	private Integer userId;
+	private String password;
+	private String userName;
 
 }
