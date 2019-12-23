@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scrotify.flexicommerce.dto.UserRequestDto;
 import com.scrotify.flexicommerce.dto.UserResponseDto;
+import com.scrotify.flexicommerce.exception.UserNotFoundException;
 import com.scrotify.flexicommerce.service.UserService;
 import com.scrotify.flexicommerce.utils.ApiConstant;
 
@@ -42,9 +43,10 @@ public class UserController {
 	 * 
 	 * @param userRequestDto which contains userName and password.
 	 * @return userResponseDto
+	 * @throws UserNotFoundException
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<UserResponseDto> login(@RequestBody UserRequestDto userRequestDto) {
+	public ResponseEntity<UserResponseDto> login(@RequestBody UserRequestDto userRequestDto) throws UserNotFoundException {
 		logger.info("Inside UserController: login method");
 		UserResponseDto userResponseDto = userService.login(userRequestDto);
 		if (userRequestDto != null) {
