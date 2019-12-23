@@ -30,15 +30,17 @@ import com.scrotify.flexicommerce.utils.ApiConstant;
 @Service
 public class UserServiceImpl implements UserService {
 
-	/**
-	 * This will inject all the implementations of the userOrderRepository.
-	 */
   
-  /**
+    /**
 	 * The Constant log.
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+
+	/**
+	 * This will inject all the implementations of the userOrderRepository.
+	 */
+	
 	@Autowired
 	UserOrderRepository userOrderRepository;
   
@@ -80,6 +82,7 @@ public class UserServiceImpl implements UserService {
 				orders.add(myOrderResponseDto);
 			});
 			return orders;
+		}	
 		}
 
 	/**

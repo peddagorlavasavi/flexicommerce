@@ -58,9 +58,10 @@ public class UserOrderServiceImpl implements UserOrderService {
 	 *                            creditCardAccountNumber,CVV,pin,exipryDate and
 	 *                            quantity.
 	 * @return userOrderResponseDto
+	 * @throws CommonException 
 	 */
 	@Override
-	public UserOrderResponseDto buyProduct(Integer userId, Integer productId, UserOrderRequestDto userOrderRequestDto) {
+	public UserOrderResponseDto buyProduct(Integer userId, Integer productId, UserOrderRequestDto userOrderRequestDto) throws CommonException {
 		logger.info("Inside UserOrderServiceImpl : buyProduct");
 		UserOrderResponseDto userOrderResponseDto = new UserOrderResponseDto();
 		UserOrder userOrder = new UserOrder();

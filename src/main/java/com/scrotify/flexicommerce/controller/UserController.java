@@ -33,11 +33,6 @@ import com.scrotify.flexicommerce.utils.ApiConstant;
 
 import lombok.extern.slf4j.Slf4j;
 
-@RestController
-@Slf4j
-@RequestMapping("/users")
-@CrossOrigin
-public class UserController {
 
 /**
  * This class is used for logging in to the application and getting the orders of particular user.
@@ -79,7 +74,7 @@ public class UserController {
 	@GetMapping("/{userId}/orders")
 	public ResponseEntity<List<MyOrderResponseDto>> searchProducts(@PathVariable Integer userId)
 			throws CommonException {
-		log.info("Get list of my orders details");
+		logger.info("Get list of my orders details");
 		List<MyOrderResponseDto> userOrders = userService.getOrders(userId);
 		if (userOrders.isEmpty()) {
 			MyOrderErrorResponseDto myOrderErrorResponseDto = new MyOrderErrorResponseDto();
@@ -114,5 +109,6 @@ public class UserController {
 		}
 
 	}
-
 }
+
+

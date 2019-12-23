@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scrotify.flexicommerce.dto.UserOrderRequestDto;
 import com.scrotify.flexicommerce.dto.UserOrderResponseDto;
+import com.scrotify.flexicommerce.exception.CommonException;
 import com.scrotify.flexicommerce.service.UserOrderService;
 import com.scrotify.flexicommerce.utils.ApiConstant;
 
@@ -27,7 +28,7 @@ public class UserOrderController {
 
 	@PostMapping("/users/{userId}/products/{productId}/orders")
 	public ResponseEntity<UserOrderResponseDto> buyProduct(@PathVariable("userId") Integer userId,
-			@PathVariable("productId") Integer productId, @RequestBody UserOrderRequestDto userOrderRequestDto) {
+			@PathVariable("productId") Integer productId, @RequestBody UserOrderRequestDto userOrderRequestDto) throws CommonException {
 
 		logger.info("Inside UserOrderController : buyProduct method ");
 		UserOrderResponseDto userOrderResponseDto = userOrderService.buyProduct(userId, productId, userOrderRequestDto);
