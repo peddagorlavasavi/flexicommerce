@@ -1,10 +1,18 @@
 package com.scrotify.flexicommerce.service;
 
-import java.util.List;
 
+import java.util.List;
 import com.scrotify.flexicommerce.dto.MyOrderResponseDto;
 import com.scrotify.flexicommerce.exception.CommonException;
+import com.scrotify.flexicommerce.dto.UserRequestDto;
+import com.scrotify.flexicommerce.dto.UserResponseDto;
 
+/**
+ * This class is used to for logging in to the application and to getting the orders by userId.
+ * @author Vasavi
+ * @since 2019-12-23
+ *
+ */
 public interface UserService {
 
 	/**
@@ -24,5 +32,18 @@ public interface UserService {
 	 */
 
 	public List<MyOrderResponseDto> getOrders(Integer userId) throws CommonException;
+
+
+
+public interface UserService {
+	/**
+	 * This method is used for logging in to the application.
+	 * 
+	 * @param userRequestDto The userRequestDto which contains userName and
+	 *                       password.
+	 * @return userResponseDto
+	 */
+	public UserResponseDto login(UserRequestDto userRequestDto);
+
 
 }
