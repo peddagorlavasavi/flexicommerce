@@ -1,10 +1,7 @@
 package com.scrotify.flexicommerce.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.scrotify.flexicommerce.dto.UserRequestDto;
@@ -22,82 +20,46 @@ import com.scrotify.flexicommerce.exception.UserNotFoundException;
 import com.scrotify.flexicommerce.service.UserServiceImpl;
 import com.scrotify.flexicommerce.utils.ApiConstant;
 
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.ResponseEntity;
-
-import com.scrotify.flexicommerce.dto.MyOrderResponseDto;
-import com.scrotify.flexicommerce.entity.Product;
-import com.scrotify.flexicommerce.entity.User;
-import com.scrotify.flexicommerce.entity.UserOrder;
-import com.scrotify.flexicommerce.exception.CommonException;
-import com.scrotify.flexicommerce.service.UserService;
-
-@RunWith(MockitoJUnitRunner.Silent.class)
+/**
+ * This class is used to do test operation for UserController
+ * @author Vasavi
+ * @since 2019-12-23
+ *
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
 public class UserControllerTest {
-
+	private static final Logger logger = LoggerFactory.getLogger(UserControllerTest.class);
 	@InjectMocks
 	UserController userController;
-
 	@Mock
-	UserService userService;
-
-	@Mock
-	List<MyOrderResponseDto> orders;
-
-	@Mock
-	MyOrderResponseDto myOrderResponseDto;
-
-	@Mock
-	UserOrder userOrder;
-
-	@Mock
-	List<UserOrder> userOrderList;
-
-	@Mock
-	Product product;
-
-	@Mock
-	User user;
-
-	int statusCode = 200;
-
-	int statusCodes = 404;
+	UserServiceImpl userService;
+	UserResponseDto userResponseDto = new UserResponseDto();
+	UserRequestDto userRequestDto = new UserRequestDto();
 
 	@Before
-	public void setUp() {
-		user = new User();
-		user.setUserId(1);
+	public void init() {
+		MockitoAnnotations.initMocks(this);
+		userResponseDto.setMessage(ApiConstant.SUCCESS);
+		userResponseDto.setStatusCode(ApiConstant.SUCCESS_STATUS_CODE);
+		userResponseDto.setMessage(ApiConstant.FAILURE);
+		userResponseDto.setStatusCode(ApiConstant.FAILURE_STATUS_CODE);
+	}
 
-		myOrderResponseDto = new MyOrderResponseDto();
-		myOrderResponseDto.setAmount(1111D);
-
-		orders = new ArrayList<>();
-		orders.add(myOrderResponseDto);
-
-		product = new Product();
-		product.setProductId(1);
-
-		userOrder = new UserOrder();
-		userOrder.setUser(user);
-		userOrder.setProduct(product);
-		userOrderList = new ArrayList<>();
-		userOrderList.add(userOrder);
+	@Test
+	public void testLogin() throws UserNotFoundException {
+		logger.info("Inside loginTest method");
+		when(userService.login(userRequestDto)).thenReturn(userResponseDto);
+		ResponseEntity<UserResponseDto> userResponseDto = userController.login(userRequestDto);
+		assertEquals(ApiConstant.SUCCESS, userResponseDto.getBody().getMessage());
 
 	}
 
 	@Test
-	public void testMyOrdersPositive() throws CommonException {
-		Mockito.when(userService.getOrders(1)).thenReturn(orders);
-		ResponseEntity<List<MyOrderResponseDto>> response = userController.searchProducts(1);
-		assertEquals(response.getStatusCodeValue(), statusCode);
-	}
+	public void testLoginNegative() throws UserNotFoundException {
+		logger.info("Inside loginNegativeTest method");
+		when(userService.login(null)).thenReturn(userResponseDto);
+		ResponseEntity<UserResponseDto> userResponseDto = userController.login(null);
+		assertEquals(ApiConstant.FAILED, userResponseDto.getBody().getMessage());
 
-	@Test
-	public void testMyOrdersNegative() throws CommonException {
-		Mockito.when(userService.getOrders(1)).thenReturn(orders);
-		ResponseEntity<List<MyOrderResponseDto>> response = userController.searchProducts(2);
-		assertEquals(response.getStatusCodeValue(), statusCodes);
 	}
-
 }

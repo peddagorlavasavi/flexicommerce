@@ -79,8 +79,7 @@ public class UserController {
 	}
 
 	/**
-	 * @author Vasavi 
-	 * This method is used for logging into the application.
+	 * @author Vasavi This method is used for logging into the application.
 	 * 
 	 * @param userRequestDto which contains userName and password.
 	 * @return userResponseDto
