@@ -8,5 +8,7 @@ import com.scrotify.flexicommerce.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-	public User findByUserNameAndPassword(String userName, String password);
+
+  public User findByUserNameAndPassword(String userName, String password);
+
 }

@@ -19,7 +19,7 @@ import com.scrotify.flexicommerce.utils.ApiConstant;
 
 @RestController
 @RequestMapping("")
-@CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
+@CrossOrigin
 public class UserOrderController {
 	private static final Logger logger = LoggerFactory.getLogger(UserOrderController.class);
 	@Autowired
