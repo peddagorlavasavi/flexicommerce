@@ -1,6 +1,8 @@
 package com.scrotify.flexicommerce.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.scrotify.flexicommerce.dto.FundTransferRequestDto;
+import com.scrotify.flexicommerce.dto.MyOrderResponseDto;
 import com.scrotify.flexicommerce.dto.UserOrderRequestDto;
 import com.scrotify.flexicommerce.dto.UserOrderResponseDto;
 import com.scrotify.flexicommerce.entity.Product;
@@ -25,6 +28,7 @@ import com.scrotify.flexicommerce.exception.CommonException;
 import com.scrotify.flexicommerce.repository.ProductRepository;
 import com.scrotify.flexicommerce.repository.UserOrderRepository;
 import com.scrotify.flexicommerce.repository.UserRepository;
+import com.scrotify.flexicommerce.utils.ApiConstant;
 import com.scrotify.flexicommerce.utils.StringConstant;
 
 /**
@@ -102,5 +106,43 @@ public class UserOrderServiceImpl implements UserOrderService {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
+
+
+
+	/**
+	 * This API is used to search the products in productList
+	 * 
+	 * @param userId
+	 *
+	 * @return List<MyOrderResponseDto>
+	 * 
+	 *         This returns the list of orders of by giving the userId
+	 * 
+	 * @author Anisha R
+	 * @throws CommonException
+	 * 
+	 */
+
+	@Override
+	public List<MyOrderResponseDto> getOrders(Integer userId) throws CommonException {
+		Optional<User> user = userRepository.findById(userId);
+		if (!user.isPresent()) {
+			throw new CommonException(ApiConstant.USERID_NOT_FOUND_MESSAGE);
+		} else {
+			List<UserOrder> orderList = userOrderRepository.findByUserUserId(userId);
+			List<MyOrderResponseDto> orders = new ArrayList<>();
+			orderList.stream().forEach(userOrder -> {
+				MyOrderResponseDto myOrderResponseDto = new MyOrderResponseDto();
+				myOrderResponseDto.setAmount(userOrder.getAmount());
+				myOrderResponseDto.setDescription(userOrder.getProduct().getDescription());
+				myOrderResponseDto.setImageUrl(userOrder.getProduct().getImageUrl());
+				myOrderResponseDto.setQuantity(userOrder.getQuantity());
+				myOrderResponseDto.setUserName(userOrder.getUser().getUserName());
+				myOrderResponseDto.setProductName(userOrder.getProduct().getProductName());
+				orders.add(myOrderResponseDto);
+			});
+			return orders;
+		}	
+		}
 
 }
