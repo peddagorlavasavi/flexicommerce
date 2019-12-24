@@ -1,7 +1,6 @@
 package com.scrotify.flexicommerce.dto;
 
 import lombok.Getter;
-
 import lombok.Setter;
 
 @Setter

@@ -1,7 +1,5 @@
 package com.scrotify.flexicommerce.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -65,20 +63,6 @@ public class UserOrderServiceImplTest {
 		userOrder.setOrderedDate(LocalDate.now());
 		userOrder.setOrderId(1);
 		userOrder.setQuantity(1);
-
-	}
-
-	@Test
-	public void testBuyProduct() throws CommonException {
-		logger.info("Inside buyProductTest method");
-		Optional<Product> optionalProduct = Optional.of(product);
-		Optional<User> optionalUser = Optional.of(user);
-		when(productRepository.findById(1)).thenReturn(optionalProduct);
-		when(userRepository.findById(1)).thenReturn(optionalUser);
-		UserOrderResponseDto userOrderResponseDto = userOrderService.buyProduct(1, 1, userOrderRequestDto);
-		assertThat(userOrderResponseDto).isNotNull();
-		assertEquals(StringConstant.SUCCESS_STATUS_CODE, userOrderResponseDto.getStatusCode());
-		assertNull(userOrderResponseDto);
 
 	}
 

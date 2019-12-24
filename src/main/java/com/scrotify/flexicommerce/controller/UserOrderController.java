@@ -23,16 +23,39 @@ import com.scrotify.flexicommerce.exception.CommonException;
 import com.scrotify.flexicommerce.service.UserOrderService;
 import com.scrotify.flexicommerce.utils.ApiConstant;
 
+/**
+ * This class is used to for buying a product and to get my orders
+ * 
+ * @since 2019-12-23
+ *
+ */
 @RestController
 @RequestMapping("users")
 @CrossOrigin
 public class UserOrderController {
+	/**
+	 * The Constant log.
+	 */
 	private static final Logger logger = LoggerFactory.getLogger(UserOrderController.class);
-	
-	
+
+	/**
+	 * The userOrderService.
+	 */
 	@Autowired
 	UserOrderService userOrderService;
 
+	/**
+	 * This method is used for to buy a product
+	 * 
+	 * @author Vasavi
+	 * @param userId
+	 * @param productId
+	 * @param userOrderRequestDto which contains
+	 *                            transactionAmount,transactionDescription,toAccount,creditCardNumber,CVV,pin,ExpirtDate
+	 *                            and quantity
+	 * @return userOrderResponseDto
+	 * @throws CommonException
+	 */
 	@PostMapping("/{userId}/products/{productId}/orders")
 	public ResponseEntity<UserOrderResponseDto> buyProduct(@PathVariable("userId") Integer userId,
 			@PathVariable("productId") Integer productId, @RequestBody UserOrderRequestDto userOrderRequestDto)
@@ -73,8 +96,7 @@ public class UserOrderController {
 	 */
 
 	@GetMapping("/{userId}/orders")
-	public ResponseEntity<List<MyOrderResponseDto>> myOrders(@PathVariable Integer userId)
-			throws CommonException {
+	public ResponseEntity<List<MyOrderResponseDto>> myOrders(@PathVariable Integer userId) throws CommonException {
 		logger.info("Get list of my orders details");
 		List<MyOrderResponseDto> userOrders = userOrderService.getMyOrders(userId);
 		if (userOrders.isEmpty()) {

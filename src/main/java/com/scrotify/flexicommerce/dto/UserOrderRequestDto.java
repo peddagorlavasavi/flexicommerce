@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UserOrderRequestDto  {
+public class UserOrderRequestDto {
 
 	private Double transactionAmount;
 	private String transactionDescription;

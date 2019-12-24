@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.scrotify.flexicommerce.entity.Product;
 import com.scrotify.flexicommerce.repository.ProductRepository;
+import com.scrotify.flexicommerce.utils.ApiConstant;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,8 +39,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> searchProducts(String productName) {
 		log.info("Entering into search Products");
-		List<Product> products = productRepository.getProductsByProductNameContains(productName);
-		return products;
+		if (productName.equalsIgnoreCase(ApiConstant.SEARCH_ALL)) {
+			return productRepository.findAll();
+		} else {
+			return productRepository.getProductsByProductNameContains(productName);
+		}
 	}
-
 }
