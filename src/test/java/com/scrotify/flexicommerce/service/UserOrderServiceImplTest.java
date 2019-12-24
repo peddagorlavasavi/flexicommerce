@@ -1,7 +1,5 @@
 package com.scrotify.flexicommerce.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -16,8 +14,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.RestTemplate;
 
+import com.scrotify.flexicommerce.dto.FundTransferRequestDto;
 import com.scrotify.flexicommerce.dto.UserOrderRequestDto;
 import com.scrotify.flexicommerce.dto.UserOrderResponseDto;
 import com.scrotify.flexicommerce.entity.Product;
@@ -47,8 +51,12 @@ public class UserOrderServiceImplTest {
 	ProductRepository productRepository;
 	@Mock
 	UserRepository userRepository;
+	@Mock
+	RestTemplate restTemplate;
+
 	UserOrderResponseDto userOrderResponseDto = new UserOrderResponseDto();
 	UserOrderRequestDto userOrderRequestDto = new UserOrderRequestDto();
+	FundTransferRequestDto fundTransferRequestDto = new FundTransferRequestDto();
 	Product product = new Product();
 	User user = new User();
 	UserOrder userOrder = new UserOrder();
@@ -60,6 +68,14 @@ public class UserOrderServiceImplTest {
 		userOrderResponseDto.setStatusCode(StringConstant.SUCCESS_STATUS_CODE);
 		userOrderResponseDto.setStatusMessage(StringConstant.TRANSACTION_FAILED);
 		userOrderResponseDto.setStatusCode(StringConstant.FAILURE_STATUS_CODE);
+		userOrderRequestDto.setCreditCardNumber(123456L);
+		userOrderRequestDto.setCvv(123);
+		userOrderRequestDto.setExpiryDate(LocalDate.now());
+		userOrderRequestDto.setPin(1234);
+		userOrderRequestDto.setQuantity(1);
+		userOrderRequestDto.setToAccount(345678L);
+		userOrderRequestDto.setTransactionAmount(15000.00);
+		userOrderRequestDto.setTransactionDescription("Mobile");
 		product.setProductId(1);
 		userOrder.setAmount(20000.00);
 		userOrder.setOrderedDate(LocalDate.now());
@@ -75,10 +91,16 @@ public class UserOrderServiceImplTest {
 		Optional<User> optionalUser = Optional.of(user);
 		when(productRepository.findById(1)).thenReturn(optionalProduct);
 		when(userRepository.findById(1)).thenReturn(optionalUser);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<FundTransferRequestDto> entity = new HttpEntity<>(fundTransferRequestDto, headers);
+		String url = "http://10.117.189.169:8089/flexibanking/transactions/fund-transfer";
+		ResponseEntity<Integer> response = ResponseEntity.accepted().body(200);
+		when(restTemplate.postForEntity(url, entity, Integer.class)).thenReturn(response);
+		when(userOrderRepository.save(userOrder)).thenReturn(userOrder);
 		UserOrderResponseDto userOrderResponseDto = userOrderService.buyProduct(1, 1, userOrderRequestDto);
-		assertThat(userOrderResponseDto).isNotNull();
+		assertEquals(200, response.getStatusCodeValue());
 		assertEquals(StringConstant.SUCCESS_STATUS_CODE, userOrderResponseDto.getStatusCode());
-		assertNull(userOrderResponseDto);
 
 	}
 
