@@ -16,6 +16,5 @@ public class FundTransferRequestDto {
 	private Integer cvv;
 	private Integer pin;
 	private LocalDate expiryDate;
-	
-	
+
 }

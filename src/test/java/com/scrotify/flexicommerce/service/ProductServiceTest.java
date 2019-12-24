@@ -52,4 +52,11 @@ public class ProductServiceTest {
 		assertEquals(response.size(), one);
 	}
 
+	@Test
+	public void testSearchProductsPositiveCase() {
+		Mockito.when(productRepository.findAll()).thenReturn(products);
+		List<Product> response = productServiceImpl.searchProducts("all");
+		assertEquals(response.size(), one);
+	}
+
 }

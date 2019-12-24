@@ -1,7 +1,6 @@
 package com.scrotify.flexicommerce.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,11 +12,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
+
 import com.scrotify.flexicommerce.dto.MyOrderResponseDto;
 import com.scrotify.flexicommerce.entity.Product;
 import com.scrotify.flexicommerce.entity.User;
@@ -36,7 +33,6 @@ public class MyOrderControllerTest {
 
 	@Mock
 	UserOrderService userOrderService;
-
 
 	@InjectMocks
 	UserOrderServiceImpl userOrderServiceImpl;
@@ -60,9 +56,9 @@ public class MyOrderControllerTest {
 	User user;
 
 	int one = 1;
-	
+
 	int statusCode = 200;
-	
+
 	int statusCodes = 404;
 
 	@Before
@@ -92,7 +88,7 @@ public class MyOrderControllerTest {
 		userOrders.add(userOrder);
 
 	}
-	
+
 	@Test
 	public void testMyOrdersPositive() throws CommonException {
 		Mockito.when(userOrderService.getMyOrders(1)).thenReturn(orders);
@@ -103,10 +99,8 @@ public class MyOrderControllerTest {
 	@Test
 	public void testMyOrdersNegative() throws CommonException {
 		Mockito.when(userOrderService.getMyOrders(1)).thenReturn(orders);
-		ResponseEntity<List<MyOrderResponseDto>> response = userOrderController.myOrders(1);
+		ResponseEntity<List<MyOrderResponseDto>> response = userOrderController.myOrders(3);
 		assertEquals(response.getStatusCodeValue(), statusCodes);
 	}
 
-
-	}
-
+}

@@ -8,11 +8,10 @@ import com.scrotify.flexicommerce.dto.UserOrderResponseDto;
 import com.scrotify.flexicommerce.exception.CommonException;
 
 public interface UserOrderService {
-	
-	
-	public UserOrderResponseDto buyProduct(Integer userId, Integer productId, UserOrderRequestDto userOrderRequestDto) throws CommonException;
-	
-	
+
+	public UserOrderResponseDto buyProduct(Integer userId, Integer productId, UserOrderRequestDto userOrderRequestDto)
+			throws CommonException;
+
 	/**
 	 * This method is used for getting the list of orders for userId.
 	 * 

@@ -62,10 +62,11 @@ public class UserOrderServiceImpl implements UserOrderService {
 	 *                            creditCardAccountNumber,CVV,pin,exipryDate and
 	 *                            quantity.
 	 * @return userOrderResponseDto
-	 * @throws CommonException 
+	 * @throws CommonException
 	 */
 	@Override
-	public UserOrderResponseDto buyProduct(Integer userId, Integer productId, UserOrderRequestDto userOrderRequestDto) throws CommonException {
+	public UserOrderResponseDto buyProduct(Integer userId, Integer productId, UserOrderRequestDto userOrderRequestDto)
+			throws CommonException {
 		logger.info("Inside UserOrderServiceImpl : buyProduct");
 		UserOrderResponseDto userOrderResponseDto = new UserOrderResponseDto();
 		UserOrder userOrder = new UserOrder();
@@ -107,8 +108,6 @@ public class UserOrderServiceImpl implements UserOrderService {
 		return new RestTemplate();
 	}
 
-
-
 	/**
 	 * This API is used to search the products in productList
 	 * 
@@ -142,7 +141,7 @@ public class UserOrderServiceImpl implements UserOrderService {
 				orders.add(myOrderResponseDto);
 			});
 			return orders;
-		}	
 		}
+	}
 
 }
