@@ -29,5 +29,5 @@ public interface UserOrderService {
 	 *
 	 */
 
-	public List<MyOrderResponseDto> getOrders(Integer userId) throws CommonException;
+	public List<MyOrderResponseDto> getMyOrders(Integer userId) throws CommonException;
 }

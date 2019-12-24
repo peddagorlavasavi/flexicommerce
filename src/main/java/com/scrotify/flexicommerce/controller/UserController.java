@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.scrotify.flexicommerce.dto.UserRequestDto;
 import com.scrotify.flexicommerce.dto.UserResponseDto;
+import com.scrotify.flexicommerce.exception.UserNotFoundException;
 import com.scrotify.flexicommerce.service.UserService;
 import com.scrotify.flexicommerce.utils.ApiConstant;
 
@@ -25,7 +25,7 @@ import com.scrotify.flexicommerce.utils.ApiConstant;
  *
  */
 @RestController
-@RequestMapping("")
+@RequestMapping("/users")
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 public class UserController {
 	/**
@@ -37,13 +37,15 @@ public class UserController {
 	UserService userService;
 
 	/**
-	 * This method is used for logging into the application.
+	 * @author Vasavi This method is used for logging into the application.
 	 * 
 	 * @param userRequestDto which contains userName and password.
 	 * @return userResponseDto
+	 * @throws UserNotFoundException
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<UserResponseDto> login(@RequestBody UserRequestDto userRequestDto) {
+	public ResponseEntity<UserResponseDto> login(@RequestBody UserRequestDto userRequestDto)
+			throws UserNotFoundException {
 		logger.info("Inside UserController: login method");
 		UserResponseDto userResponseDto = userService.login(userRequestDto);
 		if (userRequestDto != null) {

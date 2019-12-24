@@ -73,10 +73,10 @@ public class UserOrderController {
 	 */
 
 	@GetMapping("/{userId}/orders")
-	public ResponseEntity<List<MyOrderResponseDto>> searchProducts(@PathVariable Integer userId)
+	public ResponseEntity<List<MyOrderResponseDto>> myOrders(@PathVariable Integer userId)
 			throws CommonException {
 		logger.info("Get list of my orders details");
-		List<MyOrderResponseDto> userOrders = userOrderService.getOrders(userId);
+		List<MyOrderResponseDto> userOrders = userOrderService.getMyOrders(userId);
 		if (userOrders.isEmpty()) {
 			MyOrderErrorResponseDto myOrderErrorResponseDto = new MyOrderErrorResponseDto();
 			myOrderErrorResponseDto.setMessage(ApiConstant.USERID_NOT_FOUND_MESSAGE);

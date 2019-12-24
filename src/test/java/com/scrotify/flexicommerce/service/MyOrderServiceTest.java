@@ -82,14 +82,14 @@ public class MyOrderServiceTest {
 	public void testMyOrdersPositive() throws CommonException {
 		Mockito.when(userOrderRepository.findByUserUserId(1)).thenReturn(userOrders);
 		Mockito.when(userRepository.findById(1)).thenReturn(Optional.of(user));
-		List<MyOrderResponseDto> lists = userOrderServiceImpl.getOrders(1);
+		List<MyOrderResponseDto> lists = userOrderServiceImpl.getMyOrders(1);
 		assertEquals(lists.size(), one);
 	}
 
 	@Test(expected = CommonException.class)
 	public void testMyOrdersNegative() throws CommonException {
 		Mockito.when(userOrderRepository.findByUserUserId(1)).thenReturn(userOrders);
-		List<MyOrderResponseDto> response = userOrderServiceImpl.getOrders(2);
+		List<MyOrderResponseDto> response = userOrderServiceImpl.getMyOrders(2);
 		assertEquals(ApiConstant.USERID_NOT_FOUND_MESSAGE, response);
 	}
 

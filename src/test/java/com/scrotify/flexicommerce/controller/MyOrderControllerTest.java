@@ -1,7 +1,9 @@
 package com.scrotify.flexicommerce.controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,15 +13,20 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
-
 import com.scrotify.flexicommerce.dto.MyOrderResponseDto;
 import com.scrotify.flexicommerce.entity.Product;
 import com.scrotify.flexicommerce.entity.User;
 import com.scrotify.flexicommerce.entity.UserOrder;
 import com.scrotify.flexicommerce.exception.CommonException;
+import com.scrotify.flexicommerce.repository.UserOrderRepository;
+import com.scrotify.flexicommerce.repository.UserRepository;
 import com.scrotify.flexicommerce.service.UserOrderService;
+import com.scrotify.flexicommerce.service.UserOrderServiceImpl;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class MyOrderControllerTest {
@@ -30,26 +37,32 @@ public class MyOrderControllerTest {
 	@Mock
 	UserOrderService userOrderService;
 
+
+	@InjectMocks
+	UserOrderServiceImpl userOrderServiceImpl;
+
 	@Mock
+	UserOrderRepository userOrderRepository;
+
+	@Mock
+	UserRepository userRepository;
+
 	List<MyOrderResponseDto> orders;
 
-	@Mock
 	MyOrderResponseDto myOrderResponseDto;
 
-	@Mock
 	UserOrder userOrder;
 
-	@Mock
-	List<UserOrder> userOrderList;
+	List<UserOrder> userOrders;
 
-	@Mock
 	Product product;
 
-	@Mock
 	User user;
 
+	int one = 1;
+	
 	int statusCode = 200;
-
+	
 	int statusCodes = 404;
 
 	@Before
@@ -58,6 +71,7 @@ public class MyOrderControllerTest {
 		user.setUserId(1);
 
 		myOrderResponseDto = new MyOrderResponseDto();
+		myOrderResponseDto.setProductName("aaaa");
 		myOrderResponseDto.setAmount(1111D);
 
 		orders = new ArrayList<>();
@@ -68,24 +82,31 @@ public class MyOrderControllerTest {
 
 		userOrder = new UserOrder();
 		userOrder.setUser(user);
+		userOrder.setOrderedDate(LocalDate.parse("1111-12-11"));
+		userOrder.setOrderId(1);
 		userOrder.setProduct(product);
-		userOrderList = new ArrayList<>();
-		userOrderList.add(userOrder);
+		userOrder.setQuantity(10);
+		userOrder.setUser(user);
+
+		userOrders = new ArrayList<>();
+		userOrders.add(userOrder);
 
 	}
-
+	
 	@Test
 	public void testMyOrdersPositive() throws CommonException {
-		Mockito.when(userOrderService.getOrders(1)).thenReturn(orders);
-		ResponseEntity<List<MyOrderResponseDto>> response = userOrderController.searchProducts(1);
+		Mockito.when(userOrderService.getMyOrders(1)).thenReturn(orders);
+		ResponseEntity<List<MyOrderResponseDto>> response = userOrderController.myOrders(1);
 		assertEquals(response.getStatusCodeValue(), statusCode);
 	}
 
 	@Test
 	public void testMyOrdersNegative() throws CommonException {
-		Mockito.when(userOrderService.getOrders(1)).thenReturn(orders);
-		ResponseEntity<List<MyOrderResponseDto>> response = userOrderController.searchProducts(2);
+		Mockito.when(userOrderService.getMyOrders(1)).thenReturn(orders);
+		ResponseEntity<List<MyOrderResponseDto>> response = userOrderController.myOrders(1);
 		assertEquals(response.getStatusCodeValue(), statusCodes);
 	}
 
-}
+
+	}
+

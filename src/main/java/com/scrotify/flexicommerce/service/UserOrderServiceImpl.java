@@ -124,7 +124,7 @@ public class UserOrderServiceImpl implements UserOrderService {
 	 */
 
 	@Override
-	public List<MyOrderResponseDto> getOrders(Integer userId) throws CommonException {
+	public List<MyOrderResponseDto> getMyOrders(Integer userId) throws CommonException {
 		Optional<User> user = userRepository.findById(userId);
 		if (!user.isPresent()) {
 			throw new CommonException(ApiConstant.USERID_NOT_FOUND_MESSAGE);
