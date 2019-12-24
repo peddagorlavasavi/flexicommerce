@@ -25,7 +25,7 @@ import com.scrotify.flexicommerce.utils.ApiConstant;
  *
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("")
 @CrossOrigin(allowedHeaders = { "*", "*/" }, origins = { "*", "*/" })
 public class UserController {
 	/**

@@ -16,11 +16,9 @@ import com.scrotify.flexicommerce.repository.UserRepository;
 import com.scrotify.flexicommerce.utils.StringConstant;
 
 /**
- * @author Anisha R
  * @author Vasavi
- * @since 2019-12-23 This class is used for logging in to the application and
- *        getting the orders by userId.
- *
+ * @since 2019-12-23 This class is used for logging in to the application
+ * 
  */
 @Service
 public class UserServiceImpl implements UserService {
