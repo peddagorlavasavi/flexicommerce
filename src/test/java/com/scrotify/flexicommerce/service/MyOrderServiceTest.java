@@ -2,8 +2,10 @@ package com.scrotify.flexicommerce.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,33 +25,27 @@ import com.scrotify.flexicommerce.repository.UserRepository;
 import com.scrotify.flexicommerce.utils.ApiConstant;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class UserServiceTest {
+public class MyOrderServiceTest {
 
 	@InjectMocks
-	UserServiceImpl UserServiceImpl;
-
-	@Mock
-	UserRepository userRepository;
+	UserOrderServiceImpl userOrderServiceImpl;
 
 	@Mock
 	UserOrderRepository userOrderRepository;
 
 	@Mock
+	UserRepository userRepository;
+
 	List<MyOrderResponseDto> orders;
 
-	@Mock
 	MyOrderResponseDto myOrderResponseDto;
 
-	@Mock
 	UserOrder userOrder;
 
-	@Mock
-	List<UserOrder> userOrderList;
+	List<UserOrder> userOrders;
 
-	@Mock
 	Product product;
 
-	@Mock
 	User user;
 
 	int one = 1;
@@ -60,6 +56,7 @@ public class UserServiceTest {
 		user.setUserId(1);
 
 		myOrderResponseDto = new MyOrderResponseDto();
+		myOrderResponseDto.setProductName("aaaa");
 		myOrderResponseDto.setAmount(1111D);
 
 		orders = new ArrayList<>();
@@ -70,23 +67,29 @@ public class UserServiceTest {
 
 		userOrder = new UserOrder();
 		userOrder.setUser(user);
+		userOrder.setOrderedDate(LocalDate.parse("1111-12-11"));
+		userOrder.setOrderId(1);
 		userOrder.setProduct(product);
-		userOrderList = new ArrayList<>();
-		userOrderList.add(userOrder);
+		userOrder.setQuantity(10);
+		userOrder.setUser(user);
+
+		userOrders = new ArrayList<>();
+		userOrders.add(userOrder);
 
 	}
 
 	@Test
 	public void testMyOrdersPositive() throws CommonException {
-		Mockito.when(userOrderRepository.findByUserUserId(1)).thenReturn(userOrderList);
-		List<MyOrderResponseDto> response = UserServiceImpl.getOrders(1);
-		assertEquals(response.size(), one);
+		Mockito.when(userOrderRepository.findByUserUserId(1)).thenReturn(userOrders);
+		Mockito.when(userRepository.findById(1)).thenReturn(Optional.of(user));
+		List<MyOrderResponseDto> lists = userOrderServiceImpl.getMyOrders(1);
+		assertEquals(lists.size(), one);
 	}
 
 	@Test(expected = CommonException.class)
 	public void testMyOrdersNegative() throws CommonException {
-		Mockito.when(userOrderRepository.findByUserUserId(1)).thenReturn(userOrderList);
-		List<MyOrderResponseDto> response = UserServiceImpl.getOrders(2);
+		Mockito.when(userOrderRepository.findByUserUserId(1)).thenReturn(userOrders);
+		List<MyOrderResponseDto> response = userOrderServiceImpl.getMyOrders(2);
 		assertEquals(ApiConstant.USERID_NOT_FOUND_MESSAGE, response);
 	}
 

@@ -1,46 +1,28 @@
 package com.scrotify.flexicommerce.service;
 
-
-import java.util.List;
-import com.scrotify.flexicommerce.dto.MyOrderResponseDto;
-import com.scrotify.flexicommerce.exception.CommonException;
 import com.scrotify.flexicommerce.dto.UserRequestDto;
 import com.scrotify.flexicommerce.dto.UserResponseDto;
 import com.scrotify.flexicommerce.exception.UserNotFoundException;
 
 /**
 <<<<<<< HEAD
+ * This class is used to for logging in to the application and to getting the
+ * orders by userId.
+ * 
+=======
+<<<<<<< HEAD
  * This class is used to for logging in to the application.
  * 
 =======
  * This class is used to for logging in to the application and to getting the orders by userId.
 >>>>>>> 7fbbab7c7222078565a21d86aa55e601a4bd163c
+>>>>>>> 169cbf362b33330be099a7a4a896077a07690554
  * @author Vasavi
  * @author Anisha R
  * @since 2019-12-23
  *
  */
 public interface UserService {
-
-	/**
-	 * This method is used for getting the list of orders for userId.
-	 * 
-	 * @param userId
-	 * 
-	 * @author Anisha R
-	 * 
-	 *         This service is used for getting the list of orders
-	 *
-	 * @return List<MyOrderResponseDto
-	 * 
-	 *         Here we are listing the orders with particular userId.
-	 * @throws CommonException
-	 *
-	 */
-
-	public List<MyOrderResponseDto> getOrders(Integer userId) throws CommonException;
-
-
 
 	/**
 	 * This method is used for logging in to the application.
@@ -51,6 +33,5 @@ public interface UserService {
 	 * @throws UserNotFoundException
 	 */
 	public UserResponseDto login(UserRequestDto userRequestDto) throws UserNotFoundException;
-
 
 }

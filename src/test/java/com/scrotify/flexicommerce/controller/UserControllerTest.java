@@ -1,5 +1,4 @@
 package com.scrotify.flexicommerce.controller;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -20,17 +19,13 @@ import com.scrotify.flexicommerce.exception.UserNotFoundException;
 import com.scrotify.flexicommerce.service.UserServiceImpl;
 import com.scrotify.flexicommerce.utils.ApiConstant;
 
-/**
- * This class is used to do test operation for UserController
- * @author Vasavi
- * @since 2019-12-23
- *
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserControllerTest {
 	private static final Logger logger = LoggerFactory.getLogger(UserControllerTest.class);
+	
 	@InjectMocks
 	UserController userController;
+	
 	@Mock
 	UserServiceImpl userService;
 	UserResponseDto userResponseDto = new UserResponseDto();
@@ -44,8 +39,7 @@ public class UserControllerTest {
 		userResponseDto.setMessage(ApiConstant.FAILURE);
 		userResponseDto.setStatusCode(ApiConstant.FAILURE_STATUS_CODE);
 	}
-
-	@Test
+	
 	public void testLogin() throws UserNotFoundException {
 		logger.info("Inside loginTest method");
 		when(userService.login(userRequestDto)).thenReturn(userResponseDto);
@@ -60,6 +54,6 @@ public class UserControllerTest {
 		when(userService.login(null)).thenReturn(userResponseDto);
 		ResponseEntity<UserResponseDto> userResponseDto = userController.login(null);
 		assertEquals(ApiConstant.FAILED, userResponseDto.getBody().getMessage());
-
-	}
+}
+	
 }
